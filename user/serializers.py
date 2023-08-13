@@ -16,3 +16,4 @@ class userSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
         # fields = ('name', 'phone', 'password')
+

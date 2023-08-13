@@ -2,9 +2,8 @@
 from django.contrib import admin
 from django.urls import path
 
-from .views import getUser, postUser
+from .views import UserView
 
 urlpatterns = [
-    path('', getUser),
-    path('', postUser),
-    ]
+    path('', UserView.as_view()),
+]
