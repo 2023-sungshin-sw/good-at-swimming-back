@@ -2,8 +2,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import vocaSerializer, meaningSerializer
-from .models import Vocabulary
+from django.http import JsonResponse
+
+from .serializers import *
+from .models import *
 
 
 class VocaList(APIView):
@@ -42,3 +44,24 @@ class MeaningView(APIView):
         queryset = Vocabulary.objects.get(voca_id=voca_id)
         serializer = meaningSerializer(queryset)
         return Response(serializer.data)
+
+
+class VocaTestCheckList(APIView):
+
+    def post(self, request, type):
+        voca_id = request.data['voca']
+        data = {'state': 'fail', 'message': '실패하였습니다.'}
+        if type == 'check':
+            Vocabulary.objects.get(voca_id=voca_id).delete()
+            data['state'] = 'success'
+            data['message'] = '통과한 단어 삭제'
+            return Response(data, status=status.HTTP_200_OK)
+        elif type == 'xbutton':
+            exam = examSerializer(data=request.data)
+            if exam.is_valid():
+                exam.save()
+                data['state'] = 'success'
+                data['message'] = '틀린 단어 테이블에 저장'
+                return Response(data, status=status.HTTP_200_OK)
+
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
