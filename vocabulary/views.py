@@ -65,3 +65,24 @@ class VocaTestCheckList(APIView):
                 return Response(data, status=status.HTTP_200_OK)
 
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+class VocaTestResultList(APIView):
+
+    def get(self, request):
+        user_id = request.GET.get('id')
+
+        # 시험 후 xbutton을 누른 모르는 단어들을 가져온다.
+        queryset = Exam.objects.filter(voca__user_id=user_id)
+        exams_data = examSerializer(queryset, many=True).data
+        queryset.delete() # 모르는 단어가 무엇인지 알게되면 exam table에서 삭제 -> 이후에는 필요없는 정보이기 때문이다.
+
+        #모르는 단어들의 세부 정보를 가져온다.
+        vocab_ids = [exam['voca'] for exam in exams_data]
+        vocabularies = Vocabulary.objects.filter(voca_id__in=vocab_ids)
+        vocab_data = vocaSerializer(vocabularies, many=True).data
+
+        output_json = {
+            'wrong_num': len(exams_data),
+            'data': vocab_data
+        }
+        return Response(output_json)
