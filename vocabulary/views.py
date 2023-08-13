@@ -82,7 +82,7 @@ class VocaTestResultList(APIView):
         vocab_data = vocaSerializer(vocabularies, many=True).data
 
         output_json = {
-            'wrong_num': len(exams_data),
+            'score': 20 - len(exams_data),
             'data': vocab_data
         }
         return Response(output_json)
