@@ -1,7 +1,8 @@
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import VocaView
+from .views import VocaList
 
 urlpatterns = [
-    path('', VocaView.as_view()),
+    path('', VocaList.as_view(), name = 'voca-list'),
 ]
