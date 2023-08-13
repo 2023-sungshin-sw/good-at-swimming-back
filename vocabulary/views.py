@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import vocaSerializer
+from .serializers import vocaSerializer, meaningSerializer
 from .models import Vocabulary
 
 
@@ -34,5 +34,11 @@ class VocaTestList(APIView):
         return Response(serializer.data)
 
 
+class MeaningView(APIView):
 
-
+    # 단어 뜻 리턴(단어 시험 중 단어의 의미가 궁금할때 이를 리턴하는 기능)
+    def get(self, request):
+        voca_id = request.GET.get('id')
+        queryset = Vocabulary.objects.get(voca_id=voca_id)
+        serializer = meaningSerializer(queryset)
+        return Response(serializer.data)

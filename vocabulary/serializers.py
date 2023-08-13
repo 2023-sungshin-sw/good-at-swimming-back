@@ -6,3 +6,9 @@ class vocaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vocabulary
         fields = '__all__'
+
+
+class meaningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vocabulary
+        fields = ('voca_id', 'word', 'meaning')
