@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'user',
     'vocabulary',
     'main',
+    'chat',
     'rest_framework'
 ]
 
