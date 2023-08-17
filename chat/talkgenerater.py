@@ -38,7 +38,7 @@ class TalkGenerator:
                 "role": "user",
                 "content": ans + "\n" +
                            '''
-                            If my sentence has any grammatical errors, please correct them.
+                            If there are any grammatical errors in my sentences, please correct them. And correct it more naturally in spoken language.
 
                             Please answer in JSON format
                             Here is the example of answer:
@@ -56,3 +56,4 @@ class TalkGenerator:
 
         print(completion)
         reply = json.loads(completion["choices"][0]["message"]["content"])
+        return reply["answer"]

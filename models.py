@@ -135,16 +135,6 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Feedback(models.Model):
-    feedback_id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey('User', models.DO_NOTHING)
-    topic = models.CharField(max_length=20)
-    original_sentence = models.CharField(max_length=20)
-    fix_sentence = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'feedback'
 
 
 class TodayExpression(models.Model):
