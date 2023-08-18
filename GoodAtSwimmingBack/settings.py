@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'vocabulary',
+    'main',
+    'chat',
     'rest_framework'
 ]
 
@@ -87,7 +89,6 @@ WSGI_APPLICATION = 'GoodAtSwimmingBack.wsgi.application'
 #     }
 # }
 pymysql.install_as_MySQLdb()
-
 
 
 

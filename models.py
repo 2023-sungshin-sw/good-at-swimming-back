@@ -90,27 +90,6 @@ class Calendar(models.Model):
         db_table = 'calendar'
 
 
-class Chat(models.Model):
-    chat_id = models.BigAutoField(primary_key=True)
-    chat_room = models.ForeignKey('ChatRoom', models.DO_NOTHING)
-    writer = models.ForeignKey('User', models.DO_NOTHING)
-    message = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'chat'
-
-
-class ChatRoom(models.Model):
-    chat_room_id = models.BigAutoField(primary_key=True)
-    user_id = models.BigIntegerField()
-    topic = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'chat_room'
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -156,16 +135,6 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Feedback(models.Model):
-    feedback_id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey('User', models.DO_NOTHING)
-    topic = models.CharField(max_length=20)
-    original_sentence = models.CharField(max_length=20)
-    fix_sentence = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'feedback'
 
 
 class TodayExpression(models.Model):
@@ -176,37 +145,3 @@ class TodayExpression(models.Model):
     class Meta:
         managed = False
         db_table = 'today_expression'
-
-
-class User(models.Model):
-    user_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-
-
-class UserUser(models.Model):
-    name = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-
-    class Meta:
-        managed = False
-        db_table = 'user_user'
-
-
-class Vocabulary(models.Model):
-    voca_id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, models.DO_NOTHING)
-    word = models.CharField(max_length=20)
-    meaning = models.CharField(max_length=20)
-    example_en = models.CharField(max_length=100, blank=True, null=True)
-    example_kr = models.CharField(max_length=100, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'vocabulary'
