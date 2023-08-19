@@ -8,4 +8,5 @@ urlpatterns = [
     path('join/', JoinVIew.as_view()),
     path('login/', LoginView.as_view()),
     path('check-phone/', PhoneCheckView.as_view()),
+    path('mypage/<int:user_id>', MyPageView.as_view()),
 ]

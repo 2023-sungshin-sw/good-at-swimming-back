@@ -44,3 +44,11 @@ class PhoneCheckView(APIView):
             output_json['message'] = '사용 가능한 아이디 입니다.'
 
         return Response(output_json, status=status.HTTP_200_OK)
+
+
+class MyPageView(APIView):
+    def get(self, request, user_id):
+        user = User.objects.get(user_id=user_id)
+        serializer = userSerializer(user)
+        output_json = {"user_id": user_id, "name": serializer.data["name"]}
+        return Response(output_json, status=status.HTTP_200_OK)
