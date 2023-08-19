@@ -4,21 +4,43 @@ from rest_framework.views import APIView
 
 from .serializers import userSerializer
 from .models import User
+from django.core.exceptions import ObjectDoesNotExist
 
-"""https://velog.io/@dbstjd0924/django-mysql-restful-api-%EB%A7%8C%EB%93%A4%EA%B8%B0"""
 
-
-class UserView(APIView):
-    def get(self):
-        queryset = User.objects.all()
-        serializer = userSerializer(queryset, many=True)
-        return Response(serializer.data)
-
+class JoinVIew(APIView):
     def post(self, request):
-        print(request.data)
         user = userSerializer(data=request.data)
-        print(user)
         if user.is_valid():
             user.save()
-            return Response(user.data)
+            output_json = {'state': 'success', 'message': '회원가입 성공', 'user_id': user.data["user_id"]}
+            return Response(output_json, status=status.HTTP_201_CREATED)
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(APIView):
+    def post(self, request):
+        phone = request.data.get('phone')
+        password = request.data.get('password')
+
+        try:
+            user = User.objects.get(phone=phone, password=password)
+        except ObjectDoesNotExist:
+            output_json = {'state': 'fail', 'message': '존재하지 않는 회원입니다.'}
+            return Response(output_json, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = userSerializer(user).data
+        output_json = {'state': 'success', 'message': '로그인 성공', 'user_id': serializer['user_id']}
+        return Response(output_json, status=status.HTTP_200_OK)
+
+
+class PhoneCheckView(APIView):
+    def post(self, request):
+        phone = request.data.get('phone')
+        output_json = {'is_valid': False, 'message': '중복된 아이디 입니다.'}
+        try:
+            User.objects.get(phone=phone)
+        except ObjectDoesNotExist:
+            output_json['is_valid'] = True
+            output_json['message'] = '사용 가능한 아이디 입니다.'
+
+        return Response(output_json, status=status.HTTP_200_OK)
