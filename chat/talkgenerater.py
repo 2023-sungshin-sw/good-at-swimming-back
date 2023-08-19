@@ -28,8 +28,7 @@ class TalkGenerator:
         )
 
         questions_dict = json.loads(completion["choices"][0]["message"]["content"])
-        questions_list = [questions_dict[f'q{i}'] for i in range(1, 6)]
-        return questions_list
+        return questions_dict
 
     # I usually ate pizza but today I want to eat hamburger
     def reply(self, ans):
@@ -54,6 +53,5 @@ class TalkGenerator:
             messages=messages
         )
 
-        print(completion)
         reply = json.loads(completion["choices"][0]["message"]["content"])
         return reply["answer"]

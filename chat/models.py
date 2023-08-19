@@ -17,7 +17,6 @@ class Chat(models.Model):
     chat_id = models.BigAutoField(primary_key=True)
     chat_room = models.ForeignKey(ChatRoom, models.DO_NOTHING)
     is_answer = models.BooleanField()
-    is_send = models.BooleanField()
     message = models.CharField(max_length=200)
 
     class Meta:
